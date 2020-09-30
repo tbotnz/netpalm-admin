@@ -7,7 +7,7 @@ This project ports the AdminLTE project to a working flask boilerplate
 ![Flask-AdminLTE](/flask-adminLTE.gif)
 
 ### getting started
-- git clone the project ``` git clone hhttps://github.com/tbotnz/flask-AdminLTE && cd flask-AdminLTE ```
+- git clone the project ``` git clone https://github.com/tbotnz/flask-AdminLTE && cd flask-AdminLTE ```
 - install the requirements ```pip3 install -r requirements.txt```
 - run the app ```python3 app.py```
 
