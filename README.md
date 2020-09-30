@@ -16,5 +16,6 @@ Documentation
 Visit the [online documentation](https://adminlte.io/docs/3.0/) for the most
 updated guide. Information will be added on a weekly basis.
 
-### respect the upstream
+### respect for teh upstream
+view the contribute to the upstream project here
 https://github.com/ColorlibHQ/AdminLTE
