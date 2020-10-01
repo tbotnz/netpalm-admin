@@ -11,7 +11,8 @@ simple hello world app to run async commands for getting and setting config on m
 - install the requirements ```pip3 install -r requirements.txt```
 - run the app ```python3 app.py```
 
-### todo
+### notice
+- 3 hours effort has gone in to this, more work to be done
 - stop long polling
 - refactor and cleanup code
 - something else interesting
