@@ -10,3 +10,8 @@ simple hello world app to run async commands for getting and setting config on m
 - configure ```inventory.py``` with your inventory
 - install the requirements ```pip3 install -r requirements.txt```
 - run the app ```python3 app.py```
+
+### todo
+- stop long polling
+- refactor and cleanup code
+- something else interesting
