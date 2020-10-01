@@ -1,88 +1,46 @@
 from flask import Flask, render_template, redirect, url_for, request, json
+import requests
+
+from inventory import get_hosts, inventory_list
+from netpalm_utilities import send_netpalm, check_task
 
 app = Flask(__name__)
 
+devices = get_hosts(inventory_list)
 
-@app.route("/starter")
-def starter():
-    return render_template("starter.html")
+NETPALM_SERVER_IP = "10.0.2.15"
+NETPALM_SERVER_PORT = 9000
+NETPALM_API_KEY = "2a84465a-cf38-46b2-9d86-b84Q7d57f288"
 
 
 @app.route("/")
-def index_one():
-    return render_template("index.html")
+def home():
+    return render_template("navbase.html")
 
 
-@app.route("/index")
-def index():
-    return render_template("index.html")
+@app.route("/getcfg")
+def getcfg():
+    return render_template("get_set_config.html", cfgtype="get", devices=devices)
 
 
-@app.route("/index2")
-def index_two():
-    return render_template("index2.html")
+@app.route("/setcfg")
+def setcfg():
+    return render_template("get_set_config.html", cfgtype="set", devices=devices)
 
 
-@app.route("/index3")
-def index_three():
-    return render_template("index3.html")
+@app.route("/execnetpalm/", methods=["POST"])
+def execnetpalm():
+    posted_data = request.json
+    res = send_netpalm(
+        posted_data, NETPALM_SERVER_IP, NETPALM_SERVER_PORT, NETPALM_API_KEY
+    )
+    return res
 
 
-@app.route("/widgets")
-def widgets():
-    return render_template("pages/widgets.html")
-
-
-@app.route("/calendar")
-def calendar():
-    return render_template("pages/calendar.html")
-
-
-@app.route("/gallery")
-def gallery():
-    return render_template("pages/gallery.html")
-
-
-@app.route("/charts/<template>")
-def charts(template):
-    template = template.replace(".html", "")
-    return render_template(f"pages/charts/{template}.html")
-
-
-@app.route("/examples/<template>")
-def examples(template):
-    template = template.replace(".html", "")
-    return render_template(f"pages/examples/{template}.html")
-
-
-@app.route("/forms/<template>")
-def forms(template):
-    template = template.replace(".html", "")
-    return render_template(f"pages/forms/{template}.html")
-
-
-@app.route("/layout/<template>")
-def layout(template):
-    template = template.replace(".html", "")
-    return render_template(f"pages/layout/{template}.html")
-
-
-@app.route("/mailbox/<template>")
-def mailbox(template):
-    template = template.replace(".html", "")
-    return render_template(f"pages/mailbox/{template}.html")
-
-
-@app.route("/tables/<template>")
-def tables(template):
-    template = template.replace(".html", "")
-    return render_template(f"pages/tables/{template}.html")
-
-
-@app.route("/ui/<template>")
-def ui(template):
-    template = template.replace(".html", "")
-    return render_template(f"pages/UI/{template}.html")
+@app.route("/task/<task_id>")
+def checktask(task_id):
+    res = check_task(task_id, NETPALM_SERVER_IP, NETPALM_SERVER_PORT, NETPALM_API_KEY)
+    return res
 
 
 if __name__ == "__main__":

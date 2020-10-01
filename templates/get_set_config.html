@@ -1,0 +1,212 @@
+{% extends "navbase.html" %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for("static", filename="plugins/select2/css/select2.min.css") }}">
+<link rel="stylesheet"
+    href="{{ url_for("static", filename="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css") }}">
+{% endblock %}
+{% block content %}
+{{ super() }}
+<!-- jQuery -->
+<script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<section class="content">
+    <div class="container-fluid">
+
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">{{ cfgtype }} config</h3>
+                <input type="hidden" id="hidden_cfg_type" value="{{ cfgtype }}" />
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                            class="fas fa-minus"></i></button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>which network elements</label>
+                            <select id="devices" class="select2bs4" multiple="multiple"
+                                data-placeholder="select network elements" style="width: 100%;">
+                                {% for d in devices %}
+                                <option>{{d}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group">
+                            <label>which {{ cfgtype }} command</label>
+                            <textarea id="command" class="form-control" rows="3"
+                                placeholder="enter {{ cfgtype }} command"></textarea>
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group">
+                            <button id="execute" type="button" class="btn btn-block btn-default">{{ cfgtype }}
+                                it</button>
+                        </div>
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                Visit <a href="https://github.com/tbotnz/netpalm">netpalm documentation</a> for more examples and
+                information.
+            </div>
+        </div>
+        <!-- /.card -->
+
+        <!-- RESULT TABLE -->
+        <div id="jobtable" class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">running jobs</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                            class="fas fa-minus"></i></button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-md-12">
+
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>task id </th>
+                                    <th>host</th>
+                                    <th>status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                        <!-- /.form-group -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<script>
+    $('#jobtable').hide();
+    $("#execute").click(function () {
+        var command = $('#command').val();
+        var method = $('#hidden_cfg_type').val();
+        var devices = {};
+
+        $('#devices option:selected').each(function () {
+            devices[$(this).val()] = {};
+            devices[$(this).val()]["jobid"] = "";
+            devices[$(this).val()]["result"] = "";
+        });
+
+        console.log(command);
+        console.log(devices);
+        var xhr;
+        $.each(devices, function (index, device) {
+            var jsondata = {
+                "command": command,
+                "method": method,
+                "host": index
+            };
+            var jdata = JSON.stringify(jsondata);
+            $.ajax({
+                type: "POST",
+                url: "/execnetpalm/",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: jdata,
+                success: function (response) {
+                    console.log(response);
+                    devices[index]["jobid"] = response["data"]["task_id"];
+                    $('.table > tbody:last-child').append('<tr><td id=y' + response["data"]["task_id"] + '>' + response["data"]["task_id"] + '</td><td>' + index + '</td><td id=' + response["data"]["task_id"] + '><label class="badge badge-danger">Running</label></td></tr>');
+                    $('#jobtable').delay(100).fadeIn(500);
+                    var started = false;
+                    (function poll() {
+                        var xhr = $.ajax({
+                            url: "/task/" + response["data"]["task_id"],
+                            type: "GET",
+                            async: true,
+                            success: function (data) {
+
+                                if (data["data"]["task_status"] === "finished") {
+                                    if ($('#' + data["data"]["task_id"]).text() !== "Complete") {
+                                        $('#' + data["data"]["task_id"]).html('<label class="badge badge-success">Complete</label>');
+
+                                        // determine key
+                                        var result_data = null;
+                                        for (var key in data["data"]["task_result"]){
+                                            result_data = data["data"]["task_result"][key].toString();
+                                        }
+                                        if (data["data"]["task_result"]["changes"]){
+                                            result_data = data["data"]["task_result"]["changes"].toString();
+                                        }
+                                        result_data = result_data.replaceAll(',','\n');
+                                        var config = '<div class="card card-default">' +
+                                                '<div id id ="e' + response["data"]["task_id"] + '">' +
+                                                    '<div class="card-header">' +
+                                                        '<h3 class="card-title">' + index + '</h3>' +
+                                                        '<div class="card-tools">' +
+                                                            '<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>' +
+                                                        '</div>' +
+                                                    '</div>' +
+                                                    '<div class="card-body">' +
+                                                        '<div class="row">' +
+                                                            '<div class="col-md-12">' +
+                                                                '<em>'+data["data"]["task_id"]+'</em>' +
+                                                                '<pre id="e' + data["data"]["task_id"] + '">' +
+                                                                    result_data +
+                                                                '</pre>' +
+                                                                '<div class="mt-3">' +
+                                                                    '<button type="button" class="btn btn-info btn-clipboard" id="f' + data["data"]["task_id"] + '" onclick="copyTask(this.id)">Copy</button>' +
+                                                                '</div>' +
+                                                            '</div>' +
+                                                        '</div>' +
+                                                    '</div>' +
+                                                '</div>';
+                                            '</div>';
+                                        '</div>';
+                                        $('.container-fluid').append(config).delay(100).fadeIn(500);
+                                        $('#y' + data["data"]["task_id"]).html('<a href="#e' + response["data"]["task_id"] + '">' + response["data"]["task_id"] + '</a>').delay(100).fadeIn(500);
+                                    }
+                                }
+                            },
+                            dataType: "json",
+                            complete: setTimeout(function () { poll() }, 2000),
+                            timeout: 2000
+                        })
+                    })();
+                }
+            });
+        });
+    });
+</script>
+<script> 
+    function copyTask(taskid) {
+        var realtask = taskid.substring(1);
+        var newtask ="#e"+realtask;
+        var datas = $(newtask).text();
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(datas).select();
+        document.execCommand("copy");
+        $temp.remove();
+        }
+    </script>
+
+{% endblock %}

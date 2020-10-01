@@ -1,21 +1,12 @@
-# flask-AdminLTE
+# netpalm-commandatron
+simple hello world app to run async commands for getting and setting config on multiple devices
 
-**AdminLTE** is a free to use fully responsive administration template. Based on **[Bootstrap 4.4](https://getbootstrap.com)** framework and also the JS/jQuery plugin.
-
-This project ports the AdminLTE project to a working flask boilerplate
-
-![Flask-AdminLTE](/flask-adminLTE.gif)
+![netpalm commandatron](/netpalm-commandatron.gif)
 
 ### getting started
-- git clone the project ``` git clone https://github.com/tbotnz/flask-AdminLTE && cd flask-AdminLTE ```
+- make sure you have a [netpalm](https://github.com/tbotnz/netpalm) instance running
+- git clone the project ``` git clone https://github.com/tbotnz/netpalm-commandatron.git && cd netpalm-commandatron ```
+- update the ```app.py``` with your ```NETPALM_SERVER_IP``` ```NETPALM_SERVER_PORT``` ```NETPALM_API_KEY```
+- configure ```inventory.py``` with your inventory
 - install the requirements ```pip3 install -r requirements.txt```
 - run the app ```python3 app.py```
-
-Documentation
--------------
-Visit the [online documentation](https://adminlte.io/docs/3.0/) for the most
-updated guide. Information will be added on a weekly basis.
-
-### respect for teh upstream
-view the contribute to the upstream project here
-https://github.com/ColorlibHQ/AdminLTE
