@@ -13,6 +13,5 @@ simple hello world app to run async commands for getting and setting config on m
 
 ### notice
 - 3 hours effort has gone in to this, more work to be done
-- stop long polling
 - refactor and cleanup code
 - something else interesting
