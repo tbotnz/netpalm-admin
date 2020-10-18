@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
 
-
 from backend.confload.confload import Config
 from backend.netpalm.netpalm_adapter import NetpalmAdapter
+
+from urllib import parse
 
 app = Flask(__name__)
 conf = Config()
@@ -109,6 +110,36 @@ def config_template():
                         )
 
 
+@app.route("/template_editor/<template_type>")
+def template_editor(template_type=None):
+    data = netpalm.template_editor(template_type)
+    return render_template(
+                        "template_editor.html",
+                        heading=template_type,
+                        data=data
+                        )
+
+
+@app.route("/rendering_editor/<template_type>")
+def rendering_editor(template_type=None):
+    data = netpalm.template_editor(template_type)
+    return render_template(
+                        "rendering_editor.html",
+                        heading="Rendering editor",
+                        data=data
+                        )
+
+
+@app.route("/custom_editor/<template_type>")
+def custom_editor(template_type=None):
+    data = netpalm.template_editor(template_type)
+    return render_template(
+                        "custom_editor.html",
+                        heading="Custom extensibles editor",
+                        data=data
+                        )
+
+
 @app.route("/script")
 def script():
     data = netpalm.get("script")
@@ -192,4 +223,4 @@ def checktask(task_id):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10001, threaded=True)
+    app.run(host="0.0.0.0", port=10001, threaded=True, debug=True)

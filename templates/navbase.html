@@ -11,7 +11,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>netpalm-admin</title>
+    <title>Netpalm Admin</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ url_for("static", filename="plugins/fontawesome-free/css/all.min.css") }}">
@@ -57,38 +57,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li class="nav-item">
                             <a href="{{ url_for('home') }}" class="nav-link">
                                 <i class="nav-icon fas fa-chess-knight"></i>
-                                <p>
-                                    home
-                                </p>
+                                <p>Home</p>
                             </a>
                         </li>
-                        <li class="nav-header">utilities</li>
+                        <li class="nav-header">Utilities</li>
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-bolt"></i>
-                                <p>
-                                    commandatron
+                                <p>Commandatron
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item has-treeview">
                                     <a href="{{ url_for('getcfg') }}" class="nav-link">
-                                        <p>
-                                            get command
-                                        </p>                                        
+                                        <p>Get command</p>                                        
                                     </a>
                                 </li>
                                 <li class="nav-item has-treeview">
                                     <a href="{{ url_for('setcfg') }}" class="nav-link">
-                                        <p>
-                                            set command
-                                        </p>
+                                        <p>Set command</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-header">extensibles</li>
+                        <li class="nav-header">Extensibles</li>
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-random"></i>

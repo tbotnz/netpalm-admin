@@ -1,0 +1,67 @@
+{% extends "navbase.html" %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for("static", filename="plugins/datatables-bs4/css/dataTables.bootstrap4.css") }}">
+{% endblock %}
+{% block content %}
+{{ super() }}
+<!-- jQuery -->
+<script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/datatables/jquery.dataTables.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/datatables-bs4/js/dataTables.bootstrap4.js") }}"></script>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Template editor</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+          <div class="row">
+            <div class="col-sm-6">
+              <!-- textarea -->
+              <div class="form-group">
+                <label>CLI text</label>
+                <textarea class="form-control" rows="5" placeholder="Enter CLI text"></textarea>
+                <label>Template</label>
+                <textarea class="form-control" rows="5" placeholder="Enter {{ heading }} template"></textarea>
+                </div>
+              </div>
+            <div class="col-sm-6">
+              <!-- textarea -->
+              <div class="form-group">
+                <label>Results</label>
+                <textarea class="form-control" placeholder="Results" style="height: 300px;"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-danger">Discard</button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  $(document).ready(function() {
+    var pathname = window.location.pathname;
+    var split = pathname.split('/');
+    var template_type = (split.slice(-1)[0]);
+    var urlParams = new URLSearchParams(window.location.search);
+    $.ajax({
+        url: "",
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(res) {
+            console.log(res);
+            alert(res);
+        }
+      }); 
+    });
+</script>
+{% endblock %}

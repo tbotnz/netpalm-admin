@@ -50,6 +50,22 @@ class NetpalmAdapter:
         )
         return r.json()
 
+    def template_editor(self, route):
+        r = requests.get(
+            f"http://{self.config.netpalm_server}:{self.config.netpalm_server_port}/{route}",
+            headers=self.config.netpalm_headers,
+            timeout=30,
+        )
+        return r.json()
+
+    def template_getter(self, route):
+        r = requests.get(
+            f"http://{self.config.netpalm_server}:{self.config.netpalm_server_port}/{route}",
+            headers=self.config.netpalm_headers,
+            timeout=30,
+        )
+        return r.json()  
+
     def get_containers(self):
         workers = self.get("workers/")
         result = {}

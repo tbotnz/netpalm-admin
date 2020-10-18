@@ -2,7 +2,7 @@ import json
 
 DEFAULT_CONFIG_FILENAME = "config.json"
 DEFAULT_INVENTORY_FILENAME = "inventory.json"
-
+TEMPLATES_AUTO_RELOAD = True
 
 class Config:
     def __init__(self, config_filename=None, inventory_filename=None):

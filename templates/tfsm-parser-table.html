@@ -14,7 +14,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">TFSM running parsers</h3>
+        <h3 class="card-title">TextFSM parsers</h3>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
@@ -25,16 +25,15 @@
                 aria-describedby="example1_info">
                 <thead>
                   <tr role="row">
-                    
                     <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
                       aria-sort="ascending" aria-label=""
-                      style="width: 283px;">platform</th>
+                      style="width: 283px;">Platform</th>
                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                      aria-label="" style="width: 359px;">command</th>
+                      aria-label="" style="width: 359px;">Command match</th>
                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                      aria-label="" style="width: 320px;">template</th>
+                      aria-label="" style="width: 320px;">Template</th>
                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                      aria-label="" style="width: 150px;">options</th>
+                      aria-label="" style="width: 150px;">Options</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -44,7 +43,7 @@
                     <td class="sorting_1">{{platform}}</td>
                     <td>{{data["command"]}}</td>
                     <td>{{data["template"]}}</td>
-                    <td><button type="button" class="btn btn-danger btn-sm">delete</button></td>
+                    <td><button type="button" class="btn btn-danger btn-sm">Delete</button></td>
                   </tr>
                   {% endfor %}
                 {% endfor %}
@@ -59,15 +58,16 @@
   </div>
 </section>
 
-
-
 <script>
-
     $("#example1").DataTable({
       "responsive": true,
       "autoWidth": false,
     });
-
+    // PLACEHOLDER FOR AJAX CALL TO FLASK FOR TEMPLATE GRAB
+    //$("#example1").DataTable({
+    //  "responsive": true,
+    //  "autoWidth": false,
+    //});
 </script>
 
 {% endblock %}

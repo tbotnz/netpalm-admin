@@ -28,16 +28,19 @@
                   <tr role="row">
                     <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
                       aria-sort="ascending" aria-label=""
-                      style="width: 283px;">template</th>
+                      style="width: 283px;">Template</th>
                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                      aria-label="" style="width: 150px;">options</th>
+                      aria-label="" style="width: 30px;">Option</th>
+                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                    aria-label="" style="width: 30px;">Option</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for template in data["data"]["task_result"]["templates"] %}
                   <tr role="row" class="odd">
                     <td class="sorting_1">{{template}}</td>
-                    <td><button type="button" class="btn btn-danger btn-sm">delete</button></td>
+                    <td><button type="button" class="btn btn-primary btn-sm btnEdit">Edit</button></td>
+                    <td><button type="button" class="btn btn-danger btn-sm btnDelete">Delete</button></td>
                   </tr>
                 {% endfor %}
                 </tbody>
@@ -51,12 +54,24 @@
   </div>
 </section>
 
-
-
 <script>
     $("#example1").DataTable({
       "responsive": true,
       "autoWidth": false,
+    });
+    $(".btnEdit").on('click',function(){
+      var template_name = $(this).parent().siblings(":first").text();
+      var pathname = window.location.pathname;
+      var split = pathname.split('/');
+      var template_type = (split.slice(-1)[0]);
+      var url = `/template_editor/${template_type}?template_name=${template_name}`;
+      window.location.href=url;
+    });
+
+    $(".btnDelete").on("click", function(){
+      var template_name = $(this).parent().siblings(":first").text();
+      var url = "template_editor?template_name=" + template_name;
+      window.location.href=url;
     });
 </script>
 

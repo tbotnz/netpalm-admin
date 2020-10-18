@@ -24,11 +24,12 @@
         "queue_strategy": "fifo"
     },
     {
-        "device": "10.0.2.20",
+        "device": "192.168.0.106",
         "library": "netmiko",
-        "driver": "cisco_ios",
+        "driver": "accedian",
         "username": "admin",
         "password": "admin",
         "queue_strategy": "pinned"
     }
+
 ]
