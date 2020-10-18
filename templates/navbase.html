@@ -11,7 +11,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>commandatron</title>
+    <title>netpalm-admin</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ url_for("static", filename="plugins/fontawesome-free/css/all.min.css") }}">
@@ -42,7 +42,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light">commandatron</span>
+                <span class="brand-text font-weight-light">netpalm-admin</span>
             </a>
 
             <!-- Sidebar -->
@@ -62,22 +62,160 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ url_for('getcfg') }}" class="nav-link">
-                                <i class="nav-icon fas fa-feather"></i>
+                        <li class="nav-header">utilities</li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-bolt"></i>
                                 <p>
-                                    get command
+                                    commandatron
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('getcfg') }}" class="nav-link">
+                                        <p>
+                                            get command
+                                        </p>                                        
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('setcfg') }}" class="nav-link">
+                                        <p>
+                                            set command
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ url_for('setcfg') }}" class="nav-link">
-                                <i class="nav-icon fas fa-fighter-jet"></i>
+                        <li class="nav-header">extensibles</li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-random"></i>
                                 <p>
-                                    set command
+                                    parsing templates
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('tfsm_parser') }}" class="nav-link">
+                                        <p>
+                                            textfsm templates
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('ttp_parser') }}" class="nav-link">
+                                        <p>
+                                            ttp templates
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hat-wizard"></i>
+                                <p>
+                                    rendering templates
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('config_template') }}" class="nav-link">
+                                        <p>
+                                            config templates
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('service_template') }}" class="nav-link">
+                                        <p>
+                                            service templates
+                                        </p>
+                                    </a>
+                                </li>                        
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('webhook_template') }}" class="nav-link">
+                                        <p>
+                                            webhook templates
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fab fa-python"></i>
+                                <p>
+                                    custom scripts
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('webhook') }}" class="nav-link">
+                                        <p>
+                                            webhooks
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('script') }}" class="nav-link">
+                                        <p>
+                                            scripts
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-header">monitoring</li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-wrench"></i>
+                                <p>
+                                    workers
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('process') }}" class="nav-link">
+                                        <p>
+                                            processes
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('containers') }}" class="nav-link">
+                                        <p>
+                                            containers
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-clone"></i>
+                                <p>
+                                    queues
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('queue') }}" class="nav-link">
+                                        <p>
+                                            queue depths
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -113,7 +251,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                Anything you want
+                insert something professional
             </div>
             <!-- Default to the left -->
             <strong>herpatron <a href="https://github.com/tbotnz/netpalm">netpalm </a>.</strong> All right

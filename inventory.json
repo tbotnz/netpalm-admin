@@ -1,0 +1,34 @@
+[
+    {
+        "device": "10.0.2.33",
+        "library": "netmiko",
+        "driver": "cisco_ios",
+        "username": "admin",
+        "password": "admin",
+        "queue_strategy": "fifo"
+    },
+    {
+        "device": "10.0.2.22",
+        "library": "netmiko",
+        "driver": "cisco_ios",
+        "username": "admin",
+        "password": "admin",
+        "queue_strategy": "fifo"
+    },
+    {
+        "device": "10.0.2.18",
+        "library": "netmiko",
+        "driver": "cisco_ios",
+        "username": "admin",
+        "password": "admin",
+        "queue_strategy": "fifo"
+    },
+    {
+        "device": "10.0.2.20",
+        "library": "netmiko",
+        "driver": "cisco_ios",
+        "username": "admin",
+        "password": "admin",
+        "queue_strategy": "pinned"
+    }
+]

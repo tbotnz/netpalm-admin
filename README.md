@@ -1,17 +1,15 @@
-# netpalm-commandatron
-simple hello world app to run async commands for getting and setting config on multiple devices
+# netpalm-admin
+simple admin app for managing a netpalm cluster
 
-![netpalm commandatron](/netpalm-commandatron.gif)
+![netpalm commandatron](/netpalm-admin.gif)
 
 ### getting started
 - make sure you have a [netpalm](https://github.com/tbotnz/netpalm) instance running
-- git clone the project ``` git clone https://github.com/tbotnz/netpalm-commandatron.git && cd netpalm-commandatron ```
-- update the ```app.py``` with your ```NETPALM_SERVER_IP``` ```NETPALM_SERVER_PORT``` ```NETPALM_API_KEY```
-- configure ```inventory.py``` with your inventory
+- git clone the project ``` git clone https://github.com/tbotnz/netpalm-admin.git && cd netpalm-admin ```
+- update the ```config.json``` with your ```NETPALM_SERVER_IP``` ```NETPALM_SERVER_PORT``` ```NETPALM_API_KEY```
+- configure ```inventory.json``` with your inventory (optional)
 - install the requirements ```pip3 install -r requirements.txt```
-- run the app ```python3 app.py```
+- run the app ```python3 netpalm-admin.py```
 
 ### notice
-- 3 hours effort has gone in to this, more work to be done
-- refactor and cleanup code
-- something else interesting
+- 3 hours effort has gone in to this, still a work in progress

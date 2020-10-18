@@ -1,0 +1,353 @@
+{% extends "navbase.html" %}
+{% block head %}
+{{ super() }}
+<meta http-equiv="refresh" content="15" />
+{% endblock %}
+{% block content %}
+{{ super() }}
+<!-- jQuery -->
+<script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- STACKED BAR CHART -->
+                <div class="card card-light">
+                    <div class="card-header">
+                        <h3 class="card-title">success / failed tasks per container</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                                    class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                    class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="stackedBarChart"
+                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+                <!-- DONUT CHART -->
+            </div>
+            <div class="col-md-3">
+                <div class="card card-light">
+                    <div class="card-header">
+                        <h3 class="card-title">running container types</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                                    class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                    class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="donutChartOne"
+                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                
+                <!-- /.card -->
+            </div>
+            <div class="col-md-3">
+                <div class="card card-light">
+                    <div class="card-header">
+                        <h3 class="card-title">total success / failed tasks</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                                    class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                    class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="donutChart"
+                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                
+                <!-- /.card -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-light"><i class="fas fa-running"></i></span>
+    
+                  <div class="info-box-content">
+                    <span class="info-box-text">total run tasks</span>
+                    <span class="info-box-number">{{total_jobs}}</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-success"><i class="fas fa-network-wired"></i></span>
+    
+                  <div class="info-box-content">
+                    <span class="info-box-text">total task success percent</span>
+                    <span class="info-box-number">{{total_success_percent}}%</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-danger"><i class="fas fa-exclamation"></i></span>
+    
+                  <div class="info-box-content">
+                    <span class="info-box-text">total task failure percent</span>
+                    <span class="info-box-number">{{total_failed_percent}}%</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-dark"><i class="fas fa-microchip"></i></span>
+    
+                  <div class="info-box-content">
+                    <span class="info-box-text">total running processes</span>
+                    <span class="info-box-number">{{total_processes}}</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- STACKED BAR CHART -->
+                <div class="card card-light">
+                    <div class="card-header">
+                        <h3 class="card-title">success / failed tasks per process</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                                    class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                    class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="stackedBarChart1"
+                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+                <!-- DONUT CHART -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- jQuery -->
+<script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ url_for("static", filename="plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+<!-- ChartJS -->
+<script src="{{ url_for("static", filename="plugins/chart.js/Chart.min.js") }}"></script>
+
+<script>
+    $(function () {
+        /* ChartJS
+         * -------
+         * Here we will create a few charts using ChartJS
+         */
+
+        //-------------
+        //- DONUT CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+        var donutData = {
+            labels: [
+                'successful tasks',
+                'failed tasks'
+            ],
+            datasets: [
+                {
+                    data: [{{ total_successful_jobs }}, {{ total_failed_jobs }}],
+            backgroundColor: ['#00a65a', '#f56954'],
+    }
+      ]
+    }
+    var donutOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    var donutChart = new Chart(donutChartCanvas, {
+        type: 'doughnut',
+        data: donutData,
+        options: donutOptions
+    })
+
+        //-------------
+        //- DONUT CHART One-
+        //-------------
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var donutChartCanvasOne = $('#donutChartOne').get(0).getContext('2d')
+        var donutData = {
+            labels: [
+                'pinned worker containers',
+                'fifo worker containers'
+            ],
+            datasets: [
+                {
+                    data: [{{ container_types["pinned"] }}, {{ container_types["fifo"] }}],
+            backgroundColor: ['#00a65a', '#f56954'],
+    }
+      ]
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    var donutChart = new Chart(donutChartCanvasOne, {
+        type: 'doughnut',
+        data: donutData,
+        options: donutOptions
+    })
+
+    // bar chart
+    var barChartData = {
+        labels: {{ container_names | tojson}},
+    datasets: [
+        {
+            label: 'Successful Tasks',
+            backgroundColor: 'rgba(60,141,188,0.9)',
+            borderColor: 'rgba(60,141,188,0.8)',
+            pointRadius: false,
+            pointColor: '#3b8bba',
+            pointStrokeColor: 'rgba(60,141,188,1)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            data: {{ successful_jobs | tojson}}
+        },
+        {
+            label: 'Failed Tasks',
+            backgroundColor: 'rgba(210, 214, 222, 1)',
+            borderColor: 'rgba(210, 214, 222, 1)',
+            pointRadius: false,
+            pointColor: 'rgba(210, 214, 222, 1)',
+            pointStrokeColor: '#c1c7d1',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(220,220,220,1)',
+            data: {{ failed_jobs | tojson}}
+        },
+    ]
+    }
+
+    var stackedBarChartOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+        legend: {
+            display: false
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }]
+        }
+    }
+    //---------------------
+    //- STACKED BAR CHART 1-
+    //---------------------
+    var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
+    var stackedBarChartData = jQuery.extend(true, {}, barChartData)
+
+    var stackedBarChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            xAxes: [{
+                stacked: true,
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 90,
+                    minRotation: 90
+                }
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+        }
+    }
+
+    var stackedBarChart = new Chart(stackedBarChartCanvas, {
+        type: 'bar',
+        data: stackedBarChartData,
+        options: stackedBarChartOptions
+    })
+
+    //---------------------
+    //- STACKED BAR CHART 2-
+    //---------------------
+    var barChartDataOne = {
+        labels: {{ worker_names | tojson}},
+    datasets: [
+        {
+            label: 'Successful Tasks',
+            backgroundColor: 'rgba(60,141,188,0.9)',
+            borderColor: 'rgba(60,141,188,0.8)',
+            pointRadius: false,
+            pointColor: '#3b8bba',
+            pointStrokeColor: 'rgba(60,141,188,1)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            data: {{ worker_failed_jobs | tojson}}
+        },
+        {
+            label: 'Failed Tasks',
+            backgroundColor: 'rgba(210, 214, 222, 1)',
+            borderColor: 'rgba(210, 214, 222, 1)',
+            pointRadius: false,
+            pointColor: 'rgba(210, 214, 222, 1)',
+            pointStrokeColor: '#c1c7d1',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(220,220,220,1)',
+            data: {{ worker_successful_jobs | tojson}}
+        },
+    ]
+    }
+
+    var stackedBarChartCanvasOne = $('#stackedBarChart1').get(0).getContext('2d')
+    var stackedBarChartDataOne = jQuery.extend(true, {}, barChartDataOne)
+
+    var stackedBarChartOne = new Chart(stackedBarChartCanvasOne, {
+        type: 'bar',
+        data: stackedBarChartDataOne,
+        options: stackedBarChartOptions
+    })
+
+
+  })
+</script>
+
+{% endblock %}
