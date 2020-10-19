@@ -2,7 +2,7 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for("static", filename="plugins/datatables-bs4/css/dataTables.bootstrap4.css") }}">
-<meta http-equiv="refresh" content="10" />
+<!--<meta http-equiv="refresh" content="10" />-->
 {% endblock %}
 {% block content %}
 {{ super() }}
@@ -45,6 +45,13 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="card-footer clearfix">
+      {% if "template" in heading %}
+        <a href="{{ url_for('template_editor', template_type="textfsm") }}" class="btn btn-sm btn-info float-left">add template</a>
+      {% else %}
+        <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">add script</a>
+      {% endif %}
       </div>
       <!-- /.card-body -->
     </div>

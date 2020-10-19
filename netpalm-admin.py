@@ -1,12 +1,16 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 
 from backend.confload.confload import Config
 from backend.netpalm.netpalm_adapter import NetpalmAdapter
+from backend.parseatron.parseatron import ParseAtron
 
 app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 conf = Config()
 netpalm = NetpalmAdapter()
+parseatron = ParseAtron()
+
 
 @app.route("/")
 def home():
@@ -22,8 +26,12 @@ def home():
     total_successful_jobs = sum(successful_jobs)
     total_failed_jobs = sum(failed_jobs)
     total_jobs = total_successful_jobs + total_failed_jobs
-    total_success_percent = "{:.2f}".format((total_successful_jobs / total_jobs) * 100)
-    total_failed_percent = "{:.2f}".format((total_failed_jobs / total_jobs) * 100)
+    try:
+        total_success_percent = "{:.2f}".format((total_successful_jobs / total_jobs) * 100)
+        total_failed_percent = "{:.2f}".format((total_failed_jobs / total_jobs) * 100)
+    except ZeroDivisionError:
+        total_success_percent = 0
+        total_failed_percent = 0
 
     # poorly generate some process stats
     worker_data = netpalm.get("workers/")
@@ -38,13 +46,15 @@ def home():
         worker_failed_jobs.append(worker["successful_job_count"])
         worker_successful_jobs.append(worker["failed_job_count"])
         if worker["hostname"] not in container_set:
-            container_set.add(worker["hostname"])
             if "fifo" in worker["name"]:
                 container_types["fifo"] += 1
-            if "fifo" not in worker["name"] and "processworker" not in worker["name"]:
+                container_set.add(worker["hostname"])
+            if ("fifo" not in worker["name"]) and ("processworker" not in worker["name"]):
                 container_types["pinned"] += 1
-            total_processes += 1
-
+                container_set.add(worker["hostname"])
+        total_processes += 1
+    total_running_containers = len(container_set)
+    total_devices_inventory = len(conf.inventory_hosts)
     return render_template(
                         "home.html",
                         container_names=container_names,
@@ -59,7 +69,17 @@ def home():
                         worker_failed_jobs=worker_failed_jobs,
                         worker_successful_jobs=worker_successful_jobs,
                         container_types=container_types,
-                        total_processes=total_processes
+                        total_processes=total_processes,
+                        total_running_containers=total_running_containers,
+                        total_devices_inventory=total_devices_inventory
+                        )
+
+
+@app.route("/template_editor/<template_type>")
+def template_editor(template_type=None):
+    return render_template(
+                        "template-editor-form.html",
+                        heading=template_type
                         )
 
 
@@ -68,7 +88,7 @@ def ttp_parser():
     ttpdata = netpalm.get("ttptemplate")
     return render_template(
                         "universal-template-table.html",
-                        heading="TTP loaded parsers",
+                        heading="TTP loaded templates",
                         data=ttpdata
                         )
 
@@ -156,6 +176,13 @@ def queue():
                         )
 
 
+@app.route("/taskatron")
+def taskatron():
+    return render_template(
+                        "taskatron.html"
+                        )
+
+
 @app.route("/getcfg")
 def getcfg():
     return render_template(
@@ -191,5 +218,20 @@ def checktask(task_id):
     return res
 
 
+@app.route('/fsm', methods=['POST'])
+def fsm():
+    try:
+        data = request.form.to_dict(flat=False)
+        clitxt = data["inputtext"][0]
+        fsmtemplate = data["fsmtxt"][0]
+        res = parseatron.parsefsm(
+                                cli_txt=clitxt,
+                                fsm_template=fsmtemplate
+                                )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10001, threaded=True)
+    app.run(host="0.0.0.0", port=10001, threaded=True, debug=True)

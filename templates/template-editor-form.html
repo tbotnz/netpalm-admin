@@ -1,0 +1,123 @@
+{% extends "navbase.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+{{ super() }}
+<!-- jQuery -->
+<script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Template editor</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <label>CLI text</label>
+                                <textarea class="form-control" rows="8" id="clitext" placeholder="Enter CLI text"></textarea>
+                                <label>Template</label>
+                                <textarea class="form-control" rows="10" id="fsmtext"
+                                    placeholder="Enter {{ heading }} template"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <label>Results</label>
+                                <textarea class="form-control" placeholder="Results" id="result" style="height: 490px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-sm btn-info">add</button>
+                <button class="btn btn-sm btn-info" type='button' id="gettemp">download template</button>
+                <button class="btn btn-sm btn-info" type='button' id="getres">download result</button>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+$(document).ready(function(){
+
+    $("#clitext").keypress(function() {
+        
+        var clitxt = $('textarea#clitext').val();
+        var fsmtxt = $('textarea#fsmtext').val();
+        $.post("/fsm", {"inputtext": clitxt, "fsmtxt": fsmtxt}, function(result){
+            var jsonPretty = JSON.stringify(result[0], null, '\t');
+            $("textarea#result").val(jsonPretty);
+          });        
+    });
+
+    $("#fsmtext").keypress(function() {
+        var clitxt = $('textarea#clitext').val();
+        var fsmtxt = $('textarea#fsmtext').val();
+        $.post("/fsm", {"inputtext": clitxt, "fsmtxt": fsmtxt}, function(result){
+            var jsonPretty = JSON.stringify(result[0], null, '\t');
+            $("textarea#result").val(jsonPretty);
+          });        
+    });
+
+    $("#fsmtext").on("blur focus keydown mousedown", function() {
+        var clitxt = $('textarea#clitext').val();
+        var fsmtxt = $('textarea#fsmtext').val();
+        $.post("/fsm", {"inputtext": clitxt, "fsmtxt": fsmtxt}, function(result){
+            var jsonPretty = JSON.stringify(result[0], null, '\t');
+            $("textarea#result").val(jsonPretty);
+        });
+    });
+    
+    $("#getres").click(function() {
+        // create `a` element
+        $("<a />", {
+            // if supported , set name of file
+            download: $.now() + ".json",
+            // set `href` to `objectURL` of `Blob` of `textarea` value
+            href: URL.createObjectURL(
+              new Blob([$("textarea#result").val()], {
+                type: "application/octet-stream"
+              }))
+          })
+          // append `a` element to `body`
+          // call `click` on `DOM` element `a`
+          .appendTo("body")[0].click();
+          // remove appended `a` element after "Save File" dialog,
+          // `window` regains `focus` 
+          $(window).one("focus", function() {
+            $("a").last().remove()
+          })
+      });
+
+      $("#gettemp").click(function() {
+        // create `a` element
+        $("<a />", {
+            // if supported , set name of file
+            download: $.now() + ".textfsm",
+            // set `href` to `objectURL` of `Blob` of `textarea` value
+            href: URL.createObjectURL(
+              new Blob([$("textarea#fsmtext").val()], {
+                type: "application/octet-stream"
+              }))
+          })
+          // append `a` element to `body`
+          // call `click` on `DOM` element `a`
+          .appendTo("body")[0].click();
+          // remove appended `a` element after "Save File" dialog,
+          // `window` regains `focus` 
+          $(window).one("focus", function() {
+            $("a").last().remove()
+          })
+      });
+
+});
+</script>
+{% endblock %}
