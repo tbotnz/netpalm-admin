@@ -1,7 +1,7 @@
 {% extends "navbase.html" %}
 {% block head %}
 {{ super() }}
-<meta http-equiv="refresh" content="15" />
+<meta http-equiv="refresh" content="30" />
 {% endblock %}
 {% block content %}
 {{ super() }}
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-2 col-sm-6 col-12">
                 <div class="info-box">
                   <span class="info-box-icon bg-light"><i class="fas fa-running"></i></span>
     
@@ -93,7 +93,7 @@
                 </div>
                 <!-- /.info-box -->
               </div>
-              <div class="col-md-3 col-sm-6 col-12">
+              <div class="col-md-2 col-sm-6 col-12">
                 <div class="info-box">
                   <span class="info-box-icon bg-success"><i class="fas fa-network-wired"></i></span>
     
@@ -105,7 +105,7 @@
                 </div>
                 <!-- /.info-box -->
               </div>
-              <div class="col-md-3 col-sm-6 col-12">
+              <div class="col-md-2 col-sm-6 col-12">
                 <div class="info-box">
                   <span class="info-box-icon bg-danger"><i class="fas fa-exclamation"></i></span>
     
@@ -117,13 +117,37 @@
                 </div>
                 <!-- /.info-box -->
               </div>
-              <div class="col-md-3 col-sm-6 col-12">
+              <div class="col-md-2 col-sm-6 col-12">
                 <div class="info-box">
                   <span class="info-box-icon bg-dark"><i class="fas fa-microchip"></i></span>
     
                   <div class="info-box-content">
                     <span class="info-box-text">total running processes</span>
                     <span class="info-box-number">{{total_processes}}</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-info"><i class="fab fa-docker"></i></span>
+    
+                  <div class="info-box-content">
+                    <span class="info-box-text">total running containers</span>
+                    <span class="info-box-number">{{total_running_containers}}</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-warning"><i class="fas fa-server"></i></span>
+    
+                  <div class="info-box-content">
+                    <span class="info-box-text">hosts in inventory</span>
+                    <span class="info-box-number">{{total_devices_inventory}}</span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>

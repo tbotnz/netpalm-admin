@@ -14,7 +14,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">TFSM running parsers</h3>
+        <h3 class="card-title">TFSM running templates</h3>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
@@ -25,20 +25,19 @@
                 aria-describedby="example1_info">
                 <thead>
                   <tr role="row">
-                    
+
                     <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                      aria-sort="ascending" aria-label=""
-                      style="width: 283px;">platform</th>
-                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                      aria-label="" style="width: 359px;">command</th>
-                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                      aria-label="" style="width: 320px;">template</th>
-                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                      aria-label="" style="width: 150px;">options</th>
+                      aria-sort="ascending" aria-label="" style="width: 283px;">platform</th>
+                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label=""
+                      style="width: 359px;">command</th>
+                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label=""
+                      style="width: 320px;">template</th>
+                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label=""
+                      style="width: 150px;">options</th>
                   </tr>
                 </thead>
                 <tbody>
-                {% for platform in tfsmdata["data"]["task_result"] %}
+                  {% for platform in tfsmdata["data"]["task_result"] %}
                   {% for data in tfsmdata["data"]["task_result"][platform] %}
                   <tr role="row" class="odd">
                     <td class="sorting_1">{{platform}}</td>
@@ -47,7 +46,7 @@
                     <td><button type="button" class="btn btn-danger btn-sm">delete</button></td>
                   </tr>
                   {% endfor %}
-                {% endfor %}
+                  {% endfor %}
                 </tbody>
               </table>
             </div>
@@ -55,6 +54,9 @@
         </div>
       </div>
       <!-- /.card-body -->
+      <div class="card-footer clearfix">
+        <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">add template</a>
+      </div>
     </div>
   </div>
 </section>
@@ -63,10 +65,10 @@
 
 <script>
 
-    $("#example1").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
+  $("#example1").DataTable({
+    "responsive": true,
+    "autoWidth": false,
+  });
 
 </script>
 
