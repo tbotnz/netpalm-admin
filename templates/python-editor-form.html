@@ -1,0 +1,67 @@
+{% extends "navbase.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+{{ super() }}
+<!-- jQuery -->
+<script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">script editor</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- textarea -->
+                        <div class="form-group">
+                            <textarea data-editor="python" class="form-control" placeholder="Results" id="result"
+                                style="height: 600px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-sm btn-info">add</button>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://pagecdn.io/lib/ace/1.4.5/ace.js"
+            integrity="sha256-5Xkhn3k/1rbXB+Q/DX/2RuAtaB4dRRyQvMs83prFjpM=" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+
+            $('textarea[data-editor]').each(function () {
+                var textarea = $(this);
+                var div = $('<div>', {
+                    'width': textarea.outerWidth(),
+                    'height': textarea.outerHeight(),
+                    'class': textarea.attr('class')
+                }).insertBefore(textarea);
+                textarea.hide();
+                var editor = ace.edit(div[0]);
+                var session = editor.getSession();
+                editor.setTheme("ace/theme/cobolt");
+                session.setValue(textarea.val());
+                session.setMode('ace/mode/python');
+                session.setNewLineMode('unix');
+                session.setTabSize(4);
+                session.setUseSoftTabs(true);
+                session.setUseWrapMode(true);
+                textarea.closest('form').submit(function () {
+                    textarea.val(editor.getSession().getValue());
+                });
+            });
+        </script>
+
+    </div>
+</section>
+
+<script>
+$('#nav_editors').addClass('menu-open');
+</script>
+
+{% endblock %}

@@ -64,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="{{ url_for('home') }}" class="nav-link">
-                                <i class="nav-icon fas fa-chess-knight"></i>
+                                <i class="nav-icon fas fa-meteor"></i>
                                 <p>
                                     home
                                 </p>
@@ -103,6 +103,66 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     taskatron
                                 </p>
                             </a>
+                        </li>
+                        <li class="nav-item has-treeview" id="nav_editors">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user-astronaut"></i>
+                                <p>
+                                    editors
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('script_editor', script_type="webhook") }}" class="nav-link">
+                                        <p>
+                                            webhook
+                                        </p>                                        
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('script_editor', script_type="script") }}" class="nav-link">
+                                        <p>
+                                            script
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('template_editor', template_type="j2") }}" class="nav-link">
+                                        <p>
+                                            j2 config
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('template_editor', template_type="j2") }}" class="nav-link">
+                                        <p>
+                                            j2 service
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('template_editor', template_type="j2") }}" class="nav-link">
+                                        <p>
+                                            textfsm
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('template_editor', template_type="j2") }}" class="nav-link">
+                                        <p>
+                                            j2 webhook
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url_for('template_editor', template_type="j2") }}" class="nav-link">
+                                        <p>
+                                            ttp
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-header">extensibles</li>
                         <li class="nav-item has-treeview" id="nav_parsing">
@@ -245,7 +305,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="content-header">
 
             </div>
-            <div id="main-content" style="display: none">
+            <div id="main-content">
             {% endblock %}
             
             <!-- /.content-header -->

@@ -83,6 +83,14 @@ def template_editor(template_type=None):
                         )
 
 
+@app.route("/script_editor/<script_type>")
+def script_editor(script_type=None):
+    return render_template(
+                        "python-editor-form.html",
+                        heading=script_type
+                        )
+
+
 @app.route("/parser/ttp")
 def ttp_parser():
     ttpdata = netpalm.get("ttptemplate")
