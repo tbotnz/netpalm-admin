@@ -36,3 +36,11 @@ docs_html/
 TODO
 test.html
 ad.js
+
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+*.so
