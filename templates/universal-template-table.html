@@ -50,7 +50,8 @@
       {% if "template" in heading %}
         <a href="{{ url_for('template_editor', template_type="textfsm") }}" class="btn btn-sm btn-info float-left">add template</a>
       {% else %}
-        <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">add script</a>
+        <a href="{{ url_for('script_editor', script_type="textfsm") }}" class="btn btn-sm btn-info float-left">add script</a>
+        <!--<a href="javascript:void(0)" class="btn btn-sm btn-info float-left">add script</a>-->
       {% endif %}
       </div>
       <!-- /.card-body -->
