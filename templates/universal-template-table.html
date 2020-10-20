@@ -58,7 +58,19 @@
   </div>
 </section>
 
-
+{% if "TTP" in heading %}
+<script>
+$('#nav_parsing').addClass('menu-open');
+</script>
+{% elif "config templates" in heading or "service templates" in heading or "webhook templates" in heading%}
+<script>
+$('#nav_rendering').addClass('menu-open');
+</script>
+{% elif "webhooks" in heading or "scripts" in heading %}
+<script>
+$('#nav_scripts').addClass('menu-open');
+</script>
+{% endif %}
 
 <script>
     $("#example1").DataTable({

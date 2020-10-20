@@ -3,6 +3,7 @@ import ttp
 from backend.confload.confload import Config
 import uuid
 
+
 class ParseAtron:
     def __init__(self):
         self.config = Config()
