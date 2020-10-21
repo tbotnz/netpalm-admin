@@ -50,6 +50,24 @@ class NetpalmAdapter:
         )
         return r.json()
 
+    def post(self, route, payload):
+        r = requests.post(
+            f"http://{self.config.netpalm_server}:{self.config.netpalm_server_port}/{route}",
+            headers=self.config.netpalm_headers,
+            timeout=30,
+            json=payload
+        )
+        return r.json()
+
+    def delete(self, route, payload):
+        r = requests.delete(
+            f"http://{self.config.netpalm_server}:{self.config.netpalm_server_port}/{route}",
+            headers=self.config.netpalm_headers,
+            timeout=30,
+            json=payload
+        )
+        return r.json()
+
     def get_containers(self):
         workers = self.get("workers/")
         result = {}

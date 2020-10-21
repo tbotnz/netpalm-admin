@@ -1,16 +1,19 @@
 {% extends "navbase.html" %}
 {% block head %}
 {{ super() }}
+<link rel="stylesheet"
+    href="{{ url_for("static", filename="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css") }}">
 {% endblock %}
 {% block content %}
 {{ super() }}
 <!-- jQuery -->
 <script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/sweetalert2/sweetalert2.min.js") }}"></script>
 <section class="content">
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">script editor</h3>
+                <h3 class="card-title">{{script_type}} script editor</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -18,14 +21,17 @@
                     <div class="col-sm-12">
                         <!-- textarea -->
                         <div class="form-group">
-                            <textarea data-editor="python" class="form-control" placeholder="Results" id="result"
-                                style="height: 600px;"></textarea>
+                            <textarea data-editor="python" id="ace_editor" class="form-control" placeholder="Results"
+                                id="result" style="height: 600px;" required></textarea>
+                            <br>
+                            <input type="text" class="form-control" id="template_name" placeholder="Enter script name"
+                                required>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-sm btn-info">add</button>
+                <button type="submit" id="add_button" class="btn btn-sm btn-info">add</button>
             </div>
         </div>
 
@@ -33,26 +39,58 @@
         <script src="https://pagecdn.io/lib/ace/1.4.5/ace.js"
             integrity="sha256-5Xkhn3k/1rbXB+Q/DX/2RuAtaB4dRRyQvMs83prFjpM=" crossorigin="anonymous"></script>
         <script type="text/javascript">
+            $(function () {
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
 
-            $('textarea[data-editor]').each(function () {
-                var textarea = $(this);
-                var div = $('<div>', {
-                    'width': textarea.outerWidth(),
-                    'height': textarea.outerHeight(),
-                    'class': textarea.attr('class')
-                }).insertBefore(textarea);
-                textarea.hide();
-                var editor = ace.edit(div[0]);
-                var session = editor.getSession();
-                editor.setTheme("ace/theme/cobolt");
-                session.setValue(textarea.val());
-                session.setMode('ace/mode/python');
-                session.setNewLineMode('unix');
-                session.setTabSize(4);
-                session.setUseSoftTabs(true);
-                session.setUseWrapMode(true);
-                textarea.closest('form').submit(function () {
-                    textarea.val(editor.getSession().getValue());
+                $('textarea[data-editor]').each(function () {
+                    var textarea = $(this);
+                    var div = $('<div>', {
+                        'width': textarea.outerWidth(),
+                        'height': textarea.outerHeight(),
+                        'class': textarea.attr('class')
+                    }).insertBefore(textarea);
+                    textarea.hide();
+                    var editor = ace.edit(div[0]);
+                    var session = editor.getSession();
+                    editor.setTheme("ace/theme/cobolt");
+                    session.setValue(textarea.val());
+                    session.setMode('ace/mode/python');
+                    session.setNewLineMode('unix');
+                    session.setTabSize(4);
+                    session.setUseSoftTabs(true);
+                    session.setUseWrapMode(true);
+                    textarea.closest('form').submit(function () {
+                        textarea.val(editor.getSession().getValue());
+                    });
+                    $("#add_button").click(function () {
+                        Toast.fire({
+                            icon: 'info',
+                            title: 'adding template ' + $("#template_name").val()
+                        });
+                        var jsondata = {
+                            "name": $("#template_name").val(),
+                            "base64_payload": btoa(editor.getValue())
+                        };
+                        var jdata = JSON.stringify(jsondata);
+                        $.ajax({
+                            type: "POST",
+                            url: "/{{script_type}}/add",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: jdata,
+                            success: function (response) {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'created ' + $("#template_name").val()
+                                });
+                            }
+                        });
+                    });
                 });
             });
         </script>
@@ -61,7 +99,7 @@
 </section>
 
 <script>
-$('#nav_editors').addClass('menu-open');
+    $('#nav_editors').addClass('menu-open');
 </script>
 
 {% endblock %}
