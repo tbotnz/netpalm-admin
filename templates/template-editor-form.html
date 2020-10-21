@@ -1,17 +1,25 @@
 {% extends "navbase.html" %}
 {% block head %}
 {{ super() }}
+<link rel="stylesheet"
+    href="{{ url_for("static", filename="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css") }}">
 {% endblock %}
 {% block content %}
 {{ super() }}
 <!-- jQuery -->
 <script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/sweetalert2/sweetalert2.min.js") }}"></script>
 
 <section class="content">
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Template editor</h3>
+                <h3 class="card-title">{{heading}} Template editor</h3>
+                {% if "fsm" in heading %}
+                {% set httproute = "fsm" %}
+                {% elif "ttp" in heading %}
+                {% set httproute = "ttp" %}
+                {% endif %}
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -21,24 +29,28 @@
                             <!-- textarea -->
                             <div class="form-group">
                                 <label>CLI text</label>
-                                <textarea class="form-control" rows="8" id="clitext" placeholder="Enter CLI text"></textarea>
+                                <textarea class="form-control" rows="8" id="clitext"
+                                    placeholder="Enter CLI text"></textarea>
                                 <label>Template</label>
                                 <textarea class="form-control" rows="10" id="fsmtext"
                                     placeholder="Enter {{ heading }} template"></textarea>
+                                <br>
+                                <input type="text" class="form-control" id="template_name" placeholder="Enter template name" required="">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <!-- textarea -->
                             <div class="form-group">
                                 <label>Results</label>
-                                <textarea class="form-control" placeholder="Results" id="result" style="height: 490px;"></textarea>
+                                <textarea class="form-control" placeholder="Results" id="result"
+                                    style="height: 490px;"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-sm btn-info">add</button>
+                <button type="submit" class="btn btn-sm btn-info" id="add_button">add</button>
                 <button class="btn btn-sm btn-info" type='button' id="gettemp">download template</button>
                 <button class="btn btn-sm btn-info" type='button' id="getres">download result</button>
             </div>
@@ -46,78 +58,111 @@
     </div>
 </section>
 <script>
-$(document).ready(function(){
+    $(document).ready(function () {
 
-    $("#clitext").keypress(function() {
-        
-        var clitxt = $('textarea#clitext').val();
-        var fsmtxt = $('textarea#fsmtext').val();
-        $.post("/fsm", {"inputtext": clitxt, "fsmtxt": fsmtxt}, function(result){
-            var jsonPretty = JSON.stringify(result[0], null, '\t');
-            $("textarea#result").val(jsonPretty);
-          });        
-    });
+        $("#clitext").keypress(function () {
 
-    $("#fsmtext").keypress(function() {
-        var clitxt = $('textarea#clitext').val();
-        var fsmtxt = $('textarea#fsmtext').val();
-        $.post("/fsm", {"inputtext": clitxt, "fsmtxt": fsmtxt}, function(result){
-            var jsonPretty = JSON.stringify(result[0], null, '\t');
-            $("textarea#result").val(jsonPretty);
-          });        
-    });
-
-    $("#fsmtext").on("blur focus keydown mousedown", function() {
-        var clitxt = $('textarea#clitext').val();
-        var fsmtxt = $('textarea#fsmtext').val();
-        $.post("/fsm", {"inputtext": clitxt, "fsmtxt": fsmtxt}, function(result){
-            var jsonPretty = JSON.stringify(result[0], null, '\t');
-            $("textarea#result").val(jsonPretty);
+            var clitxt = $('textarea#clitext').val();
+            var fsmtxt = $('textarea#fsmtext').val();
+            $.post("/{{httproute}}", { "inputtext": clitxt, "fsmtxt": fsmtxt }, function (result) {
+                var jsonPretty = JSON.stringify(result[0], null, '\t');
+                $("textarea#result").val(jsonPretty);
+            });
         });
+
+        $("#fsmtext").keypress(function () {
+            var clitxt = $('textarea#clitext').val();
+            var fsmtxt = $('textarea#fsmtext').val();
+            $.post("/{{httproute}}", { "inputtext": clitxt, "fsmtxt": fsmtxt }, function (result) {
+                var jsonPretty = JSON.stringify(result[0], null, '\t');
+                $("textarea#result").val(jsonPretty);
+            });
+        });
+
+        $("#fsmtext").on("blur focus keydown mousedown", function () {
+            var clitxt = $('textarea#clitext').val();
+            var fsmtxt = $('textarea#fsmtext').val();
+            $.post("/{{httproute}}", { "inputtext": clitxt, "fsmtxt": fsmtxt }, function (result) {
+                var jsonPretty = JSON.stringify(result[0], null, '\t');
+                $("textarea#result").val(jsonPretty);
+            });
+        });
+
+        $("#getres").click(function () {
+            // create `a` element
+            $("<a />", {
+                // if supported , set name of file
+                download: $.now() + ".json",
+                // set `href` to `objectURL` of `Blob` of `textarea` value
+                href: URL.createObjectURL(
+                    new Blob([$("textarea#result").val()], {
+                        type: "application/octet-stream"
+                    }))
+            })
+                // append `a` element to `body`
+                // call `click` on `DOM` element `a`
+                .appendTo("body")[0].click();
+            // remove appended `a` element after "Save File" dialog,
+            // `window` regains `focus` 
+            $(window).one("focus", function () {
+                $("a").last().remove()
+            })
+        });
+
+        $("#gettemp").click(function () {
+            // create `a` element
+            $("<a />", {
+                // if supported , set name of file
+                download: $.now() + ".{{httproute}}",
+                // set `href` to `objectURL` of `Blob` of `textarea` value
+                href: URL.createObjectURL(
+                    new Blob([$("textarea#fsmtext").val()], {
+                        type: "application/octet-stream"
+                    }))
+            })
+                // append `a` element to `body`
+                // call `click` on `DOM` element `a`
+                .appendTo("body")[0].click();
+            // remove appended `a` element after "Save File" dialog,
+            // `window` regains `focus` 
+            $(window).one("focus", function () {
+                $("a").last().remove()
+            })
+        });
+
+        $("#add_button").click(function () {
+            $(function () {
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                Toast.fire({
+                    icon: 'info',
+                    title: 'adding template ' + $("#template_name").val()
+                });
+                var jsondata = {
+                    "name": $("#template_name").val(),
+                    "base64_payload": btoa($("#fsmtext").val())
+                };
+                var jdata = JSON.stringify(jsondata);
+                $.ajax({
+                    type: "POST",
+                    url: "/{{httproute}}/add",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: jdata,
+                    success: function (response) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'created ' + $("#template_name").val()
+                        });
+                    }
+                });
+            });
+        });
+
     });
-    
-    $("#getres").click(function() {
-        // create `a` element
-        $("<a />", {
-            // if supported , set name of file
-            download: $.now() + ".json",
-            // set `href` to `objectURL` of `Blob` of `textarea` value
-            href: URL.createObjectURL(
-              new Blob([$("textarea#result").val()], {
-                type: "application/octet-stream"
-              }))
-          })
-          // append `a` element to `body`
-          // call `click` on `DOM` element `a`
-          .appendTo("body")[0].click();
-          // remove appended `a` element after "Save File" dialog,
-          // `window` regains `focus` 
-          $(window).one("focus", function() {
-            $("a").last().remove()
-          })
-      });
-
-      $("#gettemp").click(function() {
-        // create `a` element
-        $("<a />", {
-            // if supported , set name of file
-            download: $.now() + ".textfsm",
-            // set `href` to `objectURL` of `Blob` of `textarea` value
-            href: URL.createObjectURL(
-              new Blob([$("textarea#fsmtext").val()], {
-                type: "application/octet-stream"
-              }))
-          })
-          // append `a` element to `body`
-          // call `click` on `DOM` element `a`
-          .appendTo("body")[0].click();
-          // remove appended `a` element after "Save File" dialog,
-          // `window` regains `focus` 
-          $(window).one("focus", function() {
-            $("a").last().remove()
-          })
-      });
-
-});
 </script>
 {% endblock %}

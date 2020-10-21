@@ -87,7 +87,7 @@ def template_editor(template_type=None):
 def script_editor(script_type=None):
     return render_template(
                         "python-editor-form.html",
-                        heading=script_type
+                        script_type=script_type
                         )
 
 
@@ -236,6 +236,81 @@ def fsm():
                                 cli_txt=clitxt,
                                 fsm_template=fsmtemplate
                                 )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/ttp', methods=['POST'])
+def ttp():
+    try:
+        data = request.form.to_dict(flat=False)
+        clitxt = data["inputtext"][0]
+        fsmtemplate = data["fsmtxt"][0]
+        res = parseatron.parsettp(
+                                cli_txt=clitxt,
+                                fsm_template=fsmtemplate
+                                )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/ttp/add', methods=['POST'])
+def add_ttp():
+    try:
+        data = request.json
+        res = netpalm.post(
+                        route="ttptemplate",
+                        payload=data
+                        )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/script/add', methods=['POST'])
+def add_script():
+    try:
+        data = request.json
+        res = netpalm.post(
+                        route="script/add/",
+                        payload=data
+                        )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/webhook/add', methods=['POST'])
+def add_webhook():
+    try:
+        data = request.json
+        res = netpalm.post(
+                        route="webhook/add/",
+                        payload=data
+                        )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/<remove_temp>/remove', methods=['POST'])
+def remove_webhook(remove_temp=None):
+    try:
+        rt = {
+            "script": "script/remove/",
+            "webhook": "webhook/remove/",
+            "webhookj2": "j2template/webhook/",
+            "configj2": "j2template/config/",
+            "servicej2": "j2template/service/",
+            "ttp": "ttptemplate"
+        }
+        data = request.json
+        res = netpalm.delete(
+                        route=rt[remove_temp],
+                        payload=data
+                        )
         return jsonify(res)
     except Exception as e:
         return str(e)
