@@ -14,7 +14,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">TFSM running templates</h3>
+        <h3 class="card-title">TFSM Running Templates</h3>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
@@ -27,13 +27,13 @@
                   <tr role="row">
 
                     <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                      aria-sort="ascending" aria-label="" style="width: 283px;">platform</th>
+                      aria-sort="ascending" aria-label="" style="width: 283px;">Platform</th>
                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label=""
-                      style="width: 359px;">command</th>
+                      style="width: 359px;">Command</th>
                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label=""
-                      style="width: 320px;">template</th>
+                      style="width: 320px;">Template</th>
                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label=""
-                      style="width: 150px;">options</th>
+                      style="width: 150px;">Options</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -43,7 +43,11 @@
                     <td class="sorting_1">{{platform}}</td>
                     <td>{{data["command"]}}</td>
                     <td>{{data["template"]}}</td>
-                    <td><button type="button" class="btn btn-light btn-sm">delete</button></td>
+                    <td align="center">
+                      <button type="button" class="btn btn-danger btn-sm delete">
+                          <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
                   </tr>
                   {% endfor %}
                   {% endfor %}
@@ -55,7 +59,7 @@
       </div>
       <!-- /.card-body -->
       <div class="card-footer clearfix">
-        <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">add template</a>
+        <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Add Template</a>
       </div>
     </div>
   </div>

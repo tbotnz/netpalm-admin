@@ -15,7 +15,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-default">
             <div class="card-header">
-                <h3 class="card-title">{{ cfgtype }} config</h3>
+                <h3 class="card-title">{{ cfgtype[0]|upper}}{{cfgtype[1:] }}</h3>
                 <input type="hidden" id="hidden_cfg_type" value="{{ cfgtype }}" />
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
@@ -28,9 +28,9 @@
                     <!-- /.col -->
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>which network elements</label>
+                            <label>Select Hosts</label>
                             <select id="devices" class="select2bs4" multiple="multiple"
-                                data-placeholder="select network elements" style="width: 100%;">
+                                data-placeholder="Inventory" style="width: 100%;">
                                 {% for d in devices %}
                                 <option>{{d}}</option>
                                 {% endfor %}
@@ -38,14 +38,16 @@
                         </div>
                         <!-- /.form-group -->
                         <div class="form-group">
-                            <label>which {{ cfgtype }} command</label>
+                            <label>Enter {{ cfgtype }} command</label>
                             <textarea id="command" class="form-control" rows="3"
-                                placeholder="enter {{ cfgtype }} command"></textarea>
+                                placeholder="{{ cfgtype }} command"></textarea>
                         </div>
                         <!-- /.form-group -->
                         <div class="form-group">
-                            <button id="execute" type="button" class="btn btn-block btn-default">{{ cfgtype }}
-                                it</button>
+                            <button id="execute" type="button" class="btn btn-info btn-block">
+                                <i class="fas fa-play-circle fa-sm"></i>
+                                &nbsp;&nbsp;Run
+                            </button>
                         </div>
 
                     </div>
@@ -64,7 +66,7 @@
         <!-- RESULT TABLE -->
         <div id="jobtable" class="card card-default">
             <div class="card-header">
-                <h3 class="card-title">running jobs</h3>
+                <h3 class="card-title">Jobs</h3>
 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
@@ -80,9 +82,9 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th>task id </th>
-                                    <th>host</th>
-                                    <th>status</th>
+                                    <th>Task ID</th>
+                                    <th>Host</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
