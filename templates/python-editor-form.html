@@ -13,25 +13,33 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{script_type}} script editor</h3>
+                <h3 class="card-title">{{script_type[0]|upper}}{{script_type[1:]}} Editor</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-12">
+                      <label>Name</label>
+                        <input type="text" class="form-control" id="template_name" placeholder="Script Name" required>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
                         <!-- textarea -->
+                        <label>Script</label>
                         <div class="form-group">
                             <textarea data-editor="python" id="ace_editor" class="form-control" placeholder="Results"
                                 id="result" style="height: 600px;" required></textarea>
-                            <br>
-                            <input type="text" class="form-control" id="template_name" placeholder="Enter script name"
-                                required>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" id="add_button" class="btn btn-sm btn-info">add</button>
+                <button type="submit" id="add_button" class="btn btn-sm btn-info">
+                    <i class="fas fa-save fa-sm"></i>
+                    &nbsp;&nbsp;Save
+                </button>
             </div>
         </div>
 
