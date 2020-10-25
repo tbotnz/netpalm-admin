@@ -19,6 +19,8 @@
                 {% set httproute = "fsm" %}
                 {% elif "ttp" in heading %}
                 {% set httproute = "ttp" %}
+                {% elif "j2" in heading %}
+                {% set httproute = "j2" %}
                 {% endif %}
             </div>
             <!-- /.card-header -->
@@ -35,7 +37,11 @@
                         <div class="col-sm-6">
                             <!-- textarea -->
                             <div class="form-group">
+                            {% if "j2" in heading %}
+                                <label>j2 Argument Dict</label>
+                            {% else %}
                                 <label>CLI text</label>
+                            {% endif %}
                                 <textarea class="form-control" rows="8" id="clitext"
                                     placeholder="Enter CLI text"></textarea>
                                 <label>Template</label>
