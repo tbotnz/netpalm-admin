@@ -241,6 +241,21 @@ def fsm():
         return str(e)
 
 
+@app.route('/j2', methods=['POST'])
+def j2():
+    try:
+        data = request.form.to_dict(flat=False)
+        clitxt = data["inputtext"][0]
+        fsmtemplate = data["fsmtxt"][0]
+        res = parseatron.parsej2(
+                                cli_txt=clitxt,
+                                fsm_template=fsmtemplate
+                                )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
 @app.route('/ttp', methods=['POST'])
 def ttp():
     try:
@@ -262,6 +277,19 @@ def add_ttp():
         data = request.json
         res = netpalm.post(
                         route="ttptemplate",
+                        payload=data
+                        )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/j2/add', methods=['POST'])
+def add_j2_config():
+    try:
+        data = request.json
+        res = netpalm.post(
+                        route="j2template/config/",
                         payload=data
                         )
         return jsonify(res)
