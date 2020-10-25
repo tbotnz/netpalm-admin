@@ -55,11 +55,11 @@
             <div class="card-footer clearfix">
                 {% if "template" in heading and "webhook" in heading %}
                 {% set httproute = "webhookj2" %}
-                <a href="{{ url_for('template_editor', template_type="textfsm") }}"
+                <a href="{{ url_for('template_editor', template_type="j2 webhook") }}"
                     class="btn btn-sm btn-info float-left">Add Template</a>
                 {% elif "template" in heading and "config" in heading %}
                 {% set httproute = "configj2" %}
-                <a href="{{ url_for('template_editor', template_type="textfsm") }}"
+                <a href="{{ url_for('template_editor', template_type="j2 config") }}"
                     class="btn btn-sm btn-info float-left">Add Template</a>
                 {% elif "template" in heading and "service" in heading %}
                 {% set httproute = "servicej2" %}
@@ -67,7 +67,7 @@
                     class="btn btn-sm btn-info float-left">Add Template</a>
                 {% elif "template" in heading and "TTP" in heading %}
                 {% set httproute = "ttp" %}
-                <a href="{{ url_for('template_editor', template_type="textfsm") }}"
+                <a href="{{ url_for('template_editor', template_type="ttp") }}"
                     class="btn btn-sm btn-info float-left">Add Template</a>
                 {% else %}
                     {% if "webhook" in heading %}

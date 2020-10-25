@@ -166,6 +166,15 @@ def containers():
                         )
 
 
+@app.route("/serviceinstance")
+def service_instance():
+    data = netpalm.get("service/instances/")
+    return render_template(
+                        "service-instance-table.html",
+                        data=data
+                        )
+
+
 @app.route("/process")
 def process():
     data = netpalm.get("workers/")
@@ -241,6 +250,7 @@ def fsm():
         return str(e)
 
 
+@app.route('/j2webhook', methods=['POST'])
 @app.route('/j2', methods=['POST'])
 def j2():
     try:
@@ -290,6 +300,19 @@ def add_j2_config():
         data = request.json
         res = netpalm.post(
                         route="j2template/config/",
+                        payload=data
+                        )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/j2webhook/add', methods=['POST'])
+def add_j2_webhook():
+    try:
+        data = request.json
+        res = netpalm.post(
+                        route="j2template/webhook/",
                         payload=data
                         )
         return jsonify(res)
