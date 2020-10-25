@@ -9,7 +9,6 @@ import json
 from backend.confload.confload import Config
 
 
-
 class ParseAtron:
     def __init__(self):
         self.config = Config()
@@ -81,10 +80,8 @@ class ParseAtron:
                                 lstrip_blocks=True,
                                 trim_blocks=True
                                 )
-            
             template = j2_env.get_template(fsm_fn_fp.replace("backend/temp_fs/", ""))
             cli_dict = json.loads(cli_txt)
-            print(cli_dict)
             res = template.render(cli_dict)
             self.cleanup_temp_files(file_one=fsm_fn_fp)
             return [res]

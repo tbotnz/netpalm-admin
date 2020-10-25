@@ -134,13 +134,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </p>
                                     </a>
                                 </li>
-                                <li class="nav-item has-treeview">
+<!--                                <li class="nav-item has-treeview">
                                     <a href="{{ url_for('template_editor', template_type="j2 service") }}" class="nav-link">
                                         <p>
                                             j2 service
                                         </p>
                                     </a>
                                 </li>
+-->
                                 <li class="nav-item has-treeview">
                                     <a href="{{ url_for('template_editor', template_type="textfsm") }}" class="nav-link">
                                         <p>
@@ -212,7 +213,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             service templates
                                         </p>
                                     </a>
-                                </li>                        
+                                </li>
                                 <li class="nav-item has-treeview">
                                     <a href="{{ url_for('webhook_template') }}" class="nav-link">
                                         <p>
@@ -247,6 +248,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-header">Services</li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('service_instance') }}" class="nav-link">
+                                <i class="nav-icon fas fa-layer-group"></i>
+                                <p>
+                                    Service Instances
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('service_template') }}" class="nav-link">
+                                <i class="nav-icon fas fa-hand-rock"></i>
+                                <p>
+                                    Service Templates
+                                </p>
+                            </a>
+                        </li>
+
                         <li class="nav-header">Monitoring</li>
                         <li class="nav-item has-treeview" id="nav_workers">
                             <a href="#" class="nav-link">

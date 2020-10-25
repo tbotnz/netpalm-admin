@@ -19,6 +19,8 @@
                 {% set httproute = "fsm" %}
                 {% elif "ttp" in heading %}
                 {% set httproute = "ttp" %}
+                {% elif "j2 webhook" in heading %}
+                {% set httproute = "j2webook" %}
                 {% elif "j2" in heading %}
                 {% set httproute = "j2" %}
                 {% endif %}
