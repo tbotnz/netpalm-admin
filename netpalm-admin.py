@@ -175,6 +175,28 @@ def service_instance():
                         )
 
 
+@app.route('/service/instance/delete/<sid>', methods=['POST'])
+def remove_service_instance(sid=None):
+    try:
+        res = netpalm.post(
+                        route=f"service/instance/delete/{sid}",
+                        payload=None
+                        )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+@app.route('/service/instance/<sid>', methods=['GET'])
+def get_service_instance(sid=None):
+    try:
+        res = netpalm.get(
+                        route=f"service/instance/{sid}"
+                        )
+        return jsonify(res)
+    except Exception as e:
+        return str(e)
+
+
 @app.route("/process")
 def process():
     data = netpalm.get("workers/")
