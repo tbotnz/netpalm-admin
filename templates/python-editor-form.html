@@ -20,7 +20,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                       <label>Name</label>
+                      {% if scrip_name %}
+                        <input type="text" class="form-control" id="template_name" placeholder="Script Name" value={{scrip_name}} required>
+                      {% else %}
                         <input type="text" class="form-control" id="template_name" placeholder="Script Name" required>
+                      {% endif %}
                     </div>
                 </div>
                 <br>
@@ -29,8 +33,13 @@
                         <!-- textarea -->
                         <label>Script</label>
                         <div class="form-group">
+                            {% if scrip_payload %}
+                            <textarea data-editor="python" id="ace_editor" class="form-control" placeholder="Results"
+                                id="result" style="height: 600px;" required>{{scrip_payload}}</textarea>
+                            {% else %}
                             <textarea data-editor="python" id="ace_editor" class="form-control" placeholder="Results"
                                 id="result" style="height: 600px;" required></textarea>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

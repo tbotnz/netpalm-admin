@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, jsonify
-
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+import base64
 
 from backend.confload.confload import Config
 from backend.netpalm.netpalm_adapter import NetpalmAdapter
@@ -79,7 +79,9 @@ def home():
 def template_editor(template_type=None):
     return render_template(
                         "template-editor-form.html",
-                        heading=template_type
+                        heading=template_type,
+                        tmp_name=None,
+                        tmp_payload=None
                         )
 
 
@@ -87,7 +89,9 @@ def template_editor(template_type=None):
 def script_editor(script_type=None):
     return render_template(
                         "python-editor-form.html",
-                        script_type=script_type
+                        script_type=script_type,
+                        scrip_name=None,
+                        scrip_payload=None
                         )
 
 
@@ -96,7 +100,7 @@ def ttp_parser():
     ttpdata = netpalm.get("ttptemplate")
     return render_template(
                         "universal-template-table.html",
-                        heading="TTP loaded templates",
+                        heading="ttp",
                         data=ttpdata
                         )
 
@@ -112,7 +116,7 @@ def service_template():
     data = netpalm.get("j2template/service/")
     return render_template(
                         "universal-template-table.html",
-                        heading="service templates loaded",
+                        heading="servicej2",
                         data=data
                         )
 
@@ -122,7 +126,7 @@ def webhook_template():
     data = netpalm.get("j2template/webhook/")
     return render_template(
                         "universal-template-table.html",
-                        heading="webhook templates loaded",
+                        heading="webhookj2",
                         data=data
                         )
 
@@ -132,7 +136,7 @@ def config_template():
     data = netpalm.get("j2template/config/")
     return render_template(
                         "universal-template-table.html",
-                        heading="config templates loaded",
+                        heading="configj2",
                         data=data
                         )
 
@@ -142,7 +146,7 @@ def script():
     data = netpalm.get("script")
     return render_template(
                         "universal-template-table.html",
-                        heading="scripts loaded",
+                        heading="script",
                         data=data
                         )
 
@@ -152,7 +156,7 @@ def webhook():
     data = netpalm.get("webhook")
     return render_template(
                         "universal-template-table.html",
-                        heading="webhooks loaded",
+                        heading="webhook",
                         data=data
                         )
 
@@ -388,6 +392,43 @@ def remove_webhook(remove_temp=None):
     except Exception as e:
         return str(e)
 
+@app.route("/servicej2/<tmpname>")
+@app.route("/configj2/<tmpname>")
+@app.route("/webhookj2/<tmpname>")
+@app.route("/ttp/<tmpname>")
+def get_template(tmpname=None):
+    rt = {
+        "script": "script/",
+        "webhook": "webhook/",
+        "webhookj2": "j2template/webhook/",
+        "configj2": "j2template/config/",
+        "servicej2": "j2template/service/",
+        "ttp": "ttptemplate/"
+    }
+    template_type = request.path.split("/")[1]
+    url_path = rt[template_type]+tmpname
+    data = netpalm.get(url_path)
+    template_payload = base64.b64decode(data["data"]["task_result"]["base64_payload"]).decode()
+    return render_template(
+                        "template-editor-form.html",
+                        heading=template_type,
+                        tmp_name=tmpname,
+                        tmp_payload=template_payload
+                        )
+
+@app.route("/script/<tmpname>")
+@app.route("/webhook/<tmpname>")
+def get_script(tmpname=None):
+    data = netpalm.get(request.path[1:])
+    script_type = request.path.split("/")[1]
+    scrip_payload = base64.b64decode(data["data"]["task_result"]["base64_payload"]).decode()
+
+    return render_template(
+                        "python-editor-form.html",
+                        script_type=script_type,
+                        scrip_name=tmpname,
+                        scrip_payload=scrip_payload
+                        )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10001, threaded=True, debug=True)

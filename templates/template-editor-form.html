@@ -19,7 +19,7 @@
                 {% set httproute = "fsm" %}
                 {% elif "ttp" in heading %}
                 {% set httproute = "ttp" %}
-                {% elif "j2 webhook" in heading %}
+                {% elif "webhookj2" in heading %}
                 {% set httproute = "j2webook" %}
                 {% elif "j2" in heading %}
                 {% set httproute = "j2" %}
@@ -31,7 +31,11 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <label>Name</label>
+                            {% if tmp_name %}
+                            <input type="text" class="form-control" id="template_name" placeholder="Template Name" value={{tmp_name}} required="">
+                            {% else %}
                             <input type="text" class="form-control" id="template_name" placeholder="Template Name" required="">
+                            {% endif %}
                         </div>
                     </div>
                     <br />
@@ -47,8 +51,13 @@
                                 <textarea class="form-control" rows="8" id="clitext"
                                     placeholder="Enter CLI text"></textarea>
                                 <label>Template</label>
+                                {% if tmp_payload %}
+                                <textarea class="form-control" rows="10" id="fsmtext"
+                                    placeholder="Enter {{ heading }} template">{{tmp_payload}}</textarea>
+                                {% else %}
                                 <textarea class="form-control" rows="10" id="fsmtext"
                                     placeholder="Enter {{ heading }} template"></textarea>
+                                {%endif%}
                             </div>
                         </div>
                         <div class="col-sm-6">

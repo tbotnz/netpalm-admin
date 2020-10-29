@@ -40,9 +40,18 @@
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">{{template}}</td>
                                         <td align="center">
+                                            {% if "service" in heading %}
                                             <button type="button" class="btn btn-danger btn-sm delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
+                                            {% else %}
+                                            <button type="button" class="btn btn-info btn-sm view">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -52,23 +61,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="card-footer clearfix">
-                {% if "template" in heading and "webhook" in heading %}
-                {% set httproute = "webhookj2" %}
-                <a href="{{ url_for('template_editor', template_type="j2 webhook") }}"
-                    class="btn btn-sm btn-info float-left">Add Template</a>
-                {% elif "template" in heading and "config" in heading %}
-                {% set httproute = "configj2" %}
-                <a href="{{ url_for('template_editor', template_type="j2 config") }}"
-                    class="btn btn-sm btn-info float-left">Add Template</a>
-                {% elif "template" in heading and "service" in heading %}
-                {% set httproute = "servicej2" %}
-                <a href="{{ url_for('template_editor', template_type="textfsm") }}"
-                    class="btn btn-sm btn-info float-left">Add Template</a>
-                {% elif "template" in heading and "TTP" in heading %}
-                {% set httproute = "ttp" %}
-                <a href="{{ url_for('template_editor', template_type="ttp") }}"
-                    class="btn btn-sm btn-info float-left">Add Template</a>
+                {% if 'j2' in heading or 'fsm' in heading or 'ttp' in heading%}
+                <a href="{{ url_for('template_editor', template_type=heading) }}"
+                    class="btn btn-sm btn-info float-left">Add</a>
                 {% else %}
                     {% if "webhook" in heading %}
                     {% set httproute = "webhook" %}
@@ -91,7 +88,7 @@
                         var jdata = JSON.stringify(jsondata);
                         $.ajax({
                             type: "POST",
-                            url: "/{{httproute}}/remove",
+                            url: "/{{heading}}/remove",
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             data: jdata,
@@ -111,6 +108,13 @@
                             }
                         });
                         $(this).parents('tr').remove();
+                    });
+                </script>
+                <script>
+                    $(".view").click(function () {
+                        var scrpname = $('td:first', $(this).parents('tr')).text();
+                        var get_url = "/{{heading}}/"+scrpname;
+                        window.location = get_url;
                     });
                 </script>
             </div>
