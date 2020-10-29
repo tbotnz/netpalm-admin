@@ -12,4 +12,4 @@ simple admin app for managing a netpalm cluster
 - run the app ```python3 netpalm-admin.py```
 
 ### notice
-- 3 hours effort has gone in to this, still a work in progress
+- project currently just a poc in progress, use at your own leisure
