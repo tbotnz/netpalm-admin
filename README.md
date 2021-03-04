@@ -20,7 +20,7 @@ for ```local inventory``` ensure ```config.json``` has the following lines
 configure ```"inventory_local.json"``` with your local inventory params accordingly
 
 ### netbox inventory
-for ```netbox``` ensure ```config.json``` has the following lines
+for ```netbox inventory``` ensure ```config.json``` has the following lines
 ```
     "inventory_type": "netbox",
     "inventory_file": "inventory_netbox.json"
