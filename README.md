@@ -11,5 +11,21 @@ simple admin app for managing a netpalm cluster
 - install the requirements ```pip3 install -r requirements.txt```
 - run the app ```python3 netpalm-admin.py```
 
+### local inventory
+for ```local inventory``` ensure ```config.json``` has the following lines
+```
+    "inventory_type": "local",
+    "inventory_file": "inventory_local.json"
+```
+configure ```"inventory_local.json"``` with your local inventory params accordingly
+
+### netbox inventory
+for ```netbox``` ensure ```config.json``` has the following lines
+```
+    "inventory_type": "netbox",
+    "inventory_file": "inventory_netbox.json"
+```
+configure ```"inventory_netbox.json"``` with your netbox params accordingly
+
 ### notice
 - project currently just a poc in progress, use at your own leisure
