@@ -1,0 +1,8 @@
+
+{
+    "netbox_url": "http://127.0.0.1:8000",
+    "netbox_ssl_verify": false,
+    "netbox_token": "0123456789abcdef0123456789abcdef01234567",
+    "device_username": "admin",
+    "device_password": "admin"
+}
