@@ -1,7 +1,7 @@
 import json
-import requests
-import os 
+import os
 
+import requests
 
 DEFAULT_CONFIG_FILENAME = "config.json"
 DEFAULT_INVENTORY_FILENAME = "inventory_local.json"
@@ -33,8 +33,8 @@ class Config:
     def get_inventory(self):
         """ load the inventory """
 
-        inv_type = self.config_data.get("inventory_type")
-        inv_file = self.config_data.get("inventory_file")
+        inv_type = self.load_value("inventory_type")
+        inv_file = self.load_value("inventory_file")
 
         if inv_type == "local":
             if self.inventory_filename is None:
