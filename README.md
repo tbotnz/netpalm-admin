@@ -31,7 +31,7 @@ configure ```"inventory_netbox.json"``` with your netbox params accordingly
 ### docker
 to use ```docker``` you can either use the default ```config.json``` file or set some env vars:
 ```
-    "export NPA_NETPALM_API_KEY=API_KEY_HERE"
+     export NPA_NETPALM_API_KEY=API_KEY_HERE
      export NPA_NETPALM_SERVER=SERVER_HERE"
      export NPA_NETPALM_PORT=PORT_HERE
      export NPA_INVENTORY_FILE=INVENTORY_FILE_DIR_HERE
