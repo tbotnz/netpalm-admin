@@ -1,6 +1,10 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.8-alpine 
+FROM python:3.9-slim
+
+WORKDIR /app
 
 COPY requirements.txt /app
-RUN pip3 install -r requirements.txt 
-
 COPY . /app
+
+RUN pip3 install -r requirements.txt
+
+CMD ./run.sh

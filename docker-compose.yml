@@ -1,0 +1,22 @@
+---
+version: "3.7"
+services:
+  netpalm-admin:
+    build:
+      context: "."
+      dockerfile: "Dockerfile"
+    image: "netpalm-admin"
+    container_name: "netpalm-admin"
+    environment:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "TZ=UTC"
+      - "UMASK_SET=022"
+      - "NPA_NETPALM_API_KEY"
+      - "NPA_NETPALM_SERVER"
+      - "NPA_NETPALM_PORT"
+      - "NPA_INVENTORY_FILE"
+      - "NPA_INVENTORY_TYPE"
+    ports:
+      - "10001:10001"
+    restart: "unless-stopped"

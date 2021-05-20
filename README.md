@@ -27,5 +27,20 @@ for ```netbox inventory``` ensure ```config.json``` has the following lines
 ```
 configure ```"inventory_netbox.json"``` with your netbox params accordingly
 
+
+### docker
+to use ```docker``` you can either use the default ```config.json``` file or set some env vars:
+```
+     export NPA_NETPALM_API_KEY=API_KEY_HERE
+     export NPA_NETPALM_SERVER=SERVER_HERE"
+     export NPA_NETPALM_PORT=PORT_HERE
+     export NPA_INVENTORY_FILE=INVENTORY_FILE_DIR_HERE
+     export NPA_INVENTORY_TYPE=INVENTORY_TYPE_HERE
+```
+build/run:
+```
+sudo docker-compose up -d --build
+```
+
 ### notice
 - project currently just a poc in progress, use at your own leisure
